@@ -1,9 +1,9 @@
 const axios = require('axios').default;
-// const redis = require("redis");
-// const client = redis.createClient();
-// const { promisify } = require("util");
+const redis = require("redis");
+const client = redis.createClient();
+const { promisify } = require("util");
 // const getAsync = promisify(client.get).bind(client);
-// const setAsync = promisify(client.set).bind(client);
+const setAsync = promisify(client.set).bind(client);
 
 const BASE_URL = 'https://jobs.github.com/positions.json';
 
@@ -20,6 +20,8 @@ const fetchGithub = async () => {
         page++;
     }
     console.log(jobs.length);
+    const success = await setAsync('github', JSON.stringify(jobs));
+    console.log(success);
 }
 
 fetchGithub();
