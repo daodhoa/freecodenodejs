@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const mockJobs = [
     {
@@ -13,15 +14,16 @@ const mockJobs = [
     }
 ]
 
-const fetchJobs = () => {
-    
+const fetchJobs = async (updateCb) => {
+    const response = await axios.get('http://localhost:3001/jobs');
+    updateCb(response.data);
 }
 
 const Jobs = (props) => {
     const [jobs, updateJobs] = useState([]);
 
     useEffect(() => {
-        updateJobs(mockJobs);
+        fetchJobs(updateJobs);
     }, []);
     return (
         <div>
